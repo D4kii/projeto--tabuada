@@ -1,26 +1,22 @@
 package br.senai.sp.jandira.model;
 
 import br.senai.sp.jandira.Tabuada;
-import br.senai.sp.jandira.gui.*;
+import br.senai.sp.jandira.gui.FrameTabuada;
 
 public class Usuario{
 	public static void main(String[] args) {
 		
-		
-//		Tabuada tabuada = new Tabuada();
-//		tabuada.multiplicando = 2;
-//		tabuada.minimoMultiplicador = 4;
-
-//import br.senai.sp.jandira.gui.*;
+		FrameTabuada telaFrame = new FrameTabuada();
+		telaFrame.titulo = "Tabuada";
+		telaFrame.largura = 500;
+		telaFrame.altura = 600;
+		telaFrame.criarTela();
 
 		
 		Tabuada tabuada = new Tabuada();
-		System.out.println("multiplicando: ");
 		tabuada.multiplicando = 4;
-		System.out.println("Mínimo multiplicador: ");
 		tabuada.minimoMultiplicador = 6;
-		System.out.println("Máximo multiplicador: ");
-		tabuada.maximoMultiplicador = 7;
+		tabuada.maximoMultiplicador = 20;
 
 		String [] resultado = tabuada.getTabuada();
 		int i = 0;
@@ -28,6 +24,7 @@ public class Usuario{
 		while (i < resultado.length) {
 			System.out.println(resultado[i]);
 			i++;
+			
 		}
 	}
 
