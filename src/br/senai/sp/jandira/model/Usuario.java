@@ -8,7 +8,7 @@ public class Usuario{
 		
 		FrameTabuada telaFrame = new FrameTabuada();
 		telaFrame.titulo = "Tabuada";
-		telaFrame.largura = 500;
+		telaFrame.largura = 450;
 		telaFrame.altura = 600;
 		telaFrame.criarTela();
 
