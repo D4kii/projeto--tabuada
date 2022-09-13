@@ -1,5 +1,4 @@
 package br.senai.sp.jandira.model;
-
 import br.senai.sp.jandira.Tabuada;
 import br.senai.sp.jandira.gui.FrameTabuada;
 

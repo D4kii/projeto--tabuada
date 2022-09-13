@@ -1,16 +1,26 @@
 package br.senai.sp.jandira.gui;
-
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.RenderingHints.Key;
+import java.awt.ScrollPane;
 //import java.awt.Panel;
 //import java.awt.event.PaintEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import br.senai.sp.jandira.*;
+
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import br.senai.sp.jandira.Tabuada;
@@ -27,6 +37,7 @@ public class FrameTabuada {
 	public Color mostarda = new Color(238, 173, 45); 
 	public Color corFundo = new Color(243, 237, 231); 
 	public Color corTopo = new Color(222, 165, 164); 
+	public Color preto = new Color(35, 40, 43); 
 	
 	
 	
@@ -37,7 +48,9 @@ public class FrameTabuada {
 	
 	
 	
-	public void criarTela() {
+	public  void criarTela() {
+		
+		
 	JFrame tela = new JFrame();
 		tela.setTitle(titulo);
 		tela.setSize(largura, altura);
@@ -55,7 +68,7 @@ public class FrameTabuada {
 		JLabel tabuadaTitle = new JLabel();
 		tabuadaTitle.setText("Tabuada 1.0");
 		tabuadaTitle.setFont(tituloFont);
-		tabuadaTitle.setBackground(lilas);
+		tabuadaTitle.setForeground(preto);
 		tabuadaTitle.setBounds(80, 20, 200, 30);
 		
 		//imagem
@@ -65,7 +78,7 @@ public class FrameTabuada {
 		
 		//Descrição
 		JLabel tabuadaDescription = new JLabel();
-		tabuadaDescription.setText("Calcule a tabuada que desejar em segundos como nosso Aplicativo!");
+		tabuadaDescription.setText("Calcule a tabuada que desejar em segundos com nosso Aplicativo!");
 		tabuadaDescription.setFont(descriptionFont);
 		tabuadaDescription.setBackground(corTopo);
 		tabuadaDescription.setBounds(80, 23, 400, 80);
@@ -91,7 +104,7 @@ public class FrameTabuada {
 		minMultiplyField.setBounds(240, 160, 150, 35);
 		
 		JLabel maxMultiplyLabel = new JLabel();
-		maxMultiplyLabel.setText("Mínimo Multiplicador:");
+		maxMultiplyLabel.setText("Máximo Multiplicador:");
 		maxMultiplyLabel.setFont(aFont);
 		maxMultiplyLabel.setBounds(30, 225, 200, 30);
 
@@ -113,11 +126,25 @@ public class FrameTabuada {
 		cleanButton.setBackground(mostarda);
 		cleanButton.setForeground(branco);
 		cleanButton.setBounds(245, 290, 145, 40);
+//		
+//		JTextField resultField = new JTextField();
+//		resultField.setBounds(30, 350, 360, 200);
+//		resultField.setBackground(amarelo);
+		
+		
+		ScrollPane scroll = new ScrollPane();
+		scroll.setBounds(30, 350, 360, 200);
+		JList<String> listagem = new JList<String>();
+		listagem.setForeground(preto);
+		
 		
 		
 		
 
 		//adicionando ao painel
+		//painel.add(resultField);
+		painel.add(scroll);
+		painel.add(listagem);
 		painel.add(calcButton);
 		painel.add(cleanButton);
 		painel.add(maxMultiplyField);
@@ -131,21 +158,121 @@ public class FrameTabuada {
 		painel.add(tabuadaDescription);
 		tela.setVisible(true);
 		
-		calcButton.addActionListener(new ActionListener() {
+		
+		multiplyField.addKeyListener(new KeyListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				Tabuada tabuada = new Tabuada();
-				tabuada.multiplicando = Integer.parseInt(multiplyField.getText());
-				tabuada.maximoMultiplicador = Integer.parseInt(maxMultiplyField.getText());
-				tabuada.minimoMultiplicador = Integer.parseInt(minMultiplyField.getText());
+			public void keyTyped(KeyEvent e) {
 				
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				multiplyField.setText(multiplyField.getText().replaceAll("[^0-9]", ""));
+
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+			}
+		});
+		
+		minMultiplyField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				minMultiplyField.setText(minMultiplyField.getText().replaceAll("[^0-9]", ""));
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
 				
 			}
 		});
 		
+		maxMultiplyField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				maxMultiplyField.setText(maxMultiplyField.getText().replaceAll("[^0-9]", ""));
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
-		
-	}
-	}
+		calcButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(multiplyField.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(tela, "Multiplicador é OBRIGATÓRIO!", "ERRO!", JOptionPane.OK_OPTION);
+					multiplyField.requestFocus();
+				}else if(minMultiplyField.getText().isEmpty()){
+					JOptionPane.showMessageDialog(tela, "Mínimo é OBRIGATÓRIO!", "ERRO!" , JOptionPane.OK_OPTION);
+					minMultiplyField.requestFocus();
+				}else if(maxMultiplyField.getText().isEmpty()){
+					JOptionPane.showMessageDialog(tela, "Mínimo é OBRIGATÓRIO!", "ERRO!" , JOptionPane.OK_OPTION);
+					maxMultiplyField.requestFocus(); 
+				} else {
+					Tabuada tabuada = new Tabuada();
+					tabuada.multiplicando = Integer.parseInt(multiplyField.getText());
+					tabuada.maximoMultiplicador = Integer.parseInt(maxMultiplyField.getText());
+					tabuada.minimoMultiplicador = Integer.parseInt(minMultiplyField.getText());
+				    
+				if (tabuada.maximoMultiplicador < tabuada.minimoMultiplicador) {
+					JOptionPane.showMessageDialog(null, "O multiplicador mínimo deve ser menor que o máximo, digitar valor menor.", "ERRO!" , JOptionPane.OK_OPTION);
+					minMultiplyField.setText("");
+					maxMultiplyField.setText("");
+				}else{
+					
+					listagem.setListData(tabuada.getTabuada());
+					scroll.add(listagem);
+					
+				}
+				} 
+
+				
+				
+		};
+		});
+          cleanButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				multiplyField.setText("");
+				maxMultiplyField.setText("");
+				minMultiplyField.setText("");
+				
+				String[] limpar = {""};
+				listagem.setListData(limpar);
+				
+				DefaultListModel<String> model = new DefaultListModel<>();
+				listagem.setModel(model);
+				
+				
+			}
+		});
+	}}
 
